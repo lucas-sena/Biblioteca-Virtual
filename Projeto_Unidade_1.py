@@ -21,7 +21,7 @@ def verifica(id, senha):
     listPessoa = pessoas.read().split(',')
 
     if listPessoa[Dados.id.value] == id and listPessoa[Dados.senha.value] == senha:
-        print('Ola, ' + id[:])
+        print('Bem vindo, ' + listPessoa[Dados.nome.value])
     else:
         print('Usuario ou senha invalidos')
     pessoas.close()
