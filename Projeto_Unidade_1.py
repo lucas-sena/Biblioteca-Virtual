@@ -27,7 +27,6 @@ def totalDeUsuarios():
 def verifica(id, senha):
     total = totalDeUsuarios()
     base = open('dataBase.txt', 'r')
-    flag = 1
 
     for x in range(total):
         usuario = base.readline().split(',')
