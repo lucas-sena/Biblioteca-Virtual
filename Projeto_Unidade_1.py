@@ -16,6 +16,14 @@ def menu():
     return escolha
 
 
+def totalDeUsuarios():
+    base = open('dataBase.txt','r')
+    total = len(base.readlines())
+    base.close()
+
+    return total
+
+
 def verifica(id, senha):
     total = totalDeUsuarios()
     base = open('dataBase.txt', 'r')
