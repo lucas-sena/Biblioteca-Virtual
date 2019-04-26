@@ -17,14 +17,20 @@ def menu():
 
 
 def verifica(id, senha):
-    pessoas = open('dataBase.txt', 'r')
-    listPessoa = pessoas.read().split(',')
+    total = totalDeUsuarios()
+    base = open('dataBase.txt', 'r')
+    flag = 1
 
-    if listPessoa[Dados.id.value] == id and listPessoa[Dados.senha.value] == senha:
-        print('Bem vindo, ' + listPessoa[Dados.nome.value])
-    else:
-        print('Usuario ou senha invalidos')
-    pessoas.close()
+    for x in range(total):
+        usuario = base.readline().split(',')
+
+        if usuario[Dados.id.value] == id and usuario[Dados.senha.value] == senha:
+            print('Bem vindo, ' + usuario[Dados.nome.value])
+            return
+
+    print('Usuario ou senha incorreto')
+
+    base.close()
 
 
 def cadastro():
