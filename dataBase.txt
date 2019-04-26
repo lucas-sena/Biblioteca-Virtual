@@ -1,3 +1,2 @@
-lucas-sena,lucas29052000,Lucas Tejo Sena,29/05/2000,09983594404
-lts,lts,Lucas DiMaria,000000000,000000000
-
+lucas-sena,lucas29052000,Lucas Tejo Sena,29/05/2000,09983594404,adm
+lts,lts,Lucas DiMaria,000000000,000000000,perfil pendente
