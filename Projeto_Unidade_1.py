@@ -19,8 +19,7 @@ class Livro(Enum):
 def menuLogin():
     print('1. Login')
     print('2. Cadastro')
-    print('0. Sair')
-    escolha = int(input('>>> '))
+    escolha = input('>>> ')
     return escolha
 
 def hierarquia(perfil):
@@ -28,7 +27,7 @@ def hierarquia(perfil):
         #tudo
         pass
     elif perfil == 'funcionario':
-        #cadastroLivro
+        cadastroLivro()
         #atualizaLivro
         #verificaLivro
         #atualizaUsuario
@@ -49,7 +48,7 @@ def totalDeUsuarios():
     return total
 
 
-def verificaUsuario(id, senha):
+def verificaLogin(id, senha):
     total = totalDeUsuarios()
     base = open('dataBase.txt', 'r')
 
@@ -57,9 +56,9 @@ def verificaUsuario(id, senha):
         usuario = base.readline().split(',')
 
         if usuario[Pessoa.id.value] == id and usuario[Pessoa.senha.value] == senha:
-            print('Bem vindo, ' + usuario[Pessoa.nome.value])
-
-            return
+            print('Bem-vindo(a), ' + usuario[Pessoa.nome.value])
+            base.close()
+            return usuario[Pessoa.perfil.value]
 
     print('Usuario ou senha incorreto')
 
@@ -67,16 +66,21 @@ def verificaUsuario(id, senha):
 
 
 def cadastroUsuario():
-    pessoas = open('dataBase.txt','a')
-
-    base = ['Id','Senha','Nome','Data de Nascimento','CPF']
+    base = ['ID','Senha','Nome','Data de Nascimento','CPF']
     novaPessoa = []
     for x in range(len(base)):
         novaPessoa += [input('{}: '.format(base[x]))]
 
+    novaPessoa.append('\n')
+    if verificaLogin(novaPessoa):
+        return
+
+    pessoas = open('dataBase.txt', 'a')
     novaPessoaString = ','.join(novaPessoa)
     pessoas.write(novaPessoaString)
     pessoas.close()
+
+    print('-- Cadastrado com sucesso --')
 
 
 def atualizaUsuario():
@@ -99,6 +103,7 @@ def cadastroLivro():
         novoLivro += [input('{}: '.format(base[x]))]
 
     novoLivro.insert(0,posicao)
+    novoLivro.append('\n')
 
     novoLivroString = ','.join(novoLivro)
     livros.write(novoLivroString)
@@ -108,16 +113,14 @@ def atualizaLivro():
     pass
 
 # main
-sair = 1
-while sair:
-    escolha = menuLogin()
-    sair = escolha
+escolha = menuLogin()
 
-    if escolha == 1:
-        id = input('Id: ')
-        senha = input('Senha: ')
-        verificaUsuario(id, senha)
-    elif escolha == 2:
-        cadastroUsuario()
-        #cadastroLivro()
-
+if escolha == '1':
+    id = input('Id: ')
+    senha = input('Senha: ')
+    perfil = verificaLogin(id, senha)
+    hierarquia(perfil)
+elif escolha == '2':
+    cadastroUsuario()
+else:
+    pass
