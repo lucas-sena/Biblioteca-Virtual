@@ -15,31 +15,70 @@ class Livro(Enum):
     autor = 2
     ano = 3
     tipo = 4
+    preco = 5
 
+# Menu para cada tipo de perfil
 def menuLogin():
     print('1. Login')
     print('2. Cadastro')
     escolha = input('>>> ')
     return escolha
 
-def hierarquia(perfil):
-    if perfil == 'adm':
-        #tudo
+
+def menuCliente():
+    print('\nO que deseja ?')
+
+    print('1. Ver livros disponiveis')
+    print('2. Realizar compra')
+    print('3. Alugar um livro')
+    print('4. Tornar-se assinante')
+    print('5. Perguntas/Reclamaçoes/Sugetoes')
+    print('0. Sair')
+
+    escolha = input('\n>>> ')
+
+    return escolha
+
+def systemCliente(option):
+    if option == '1':
+        visualizarLivros()
+    elif option == '2':
         pass
-    elif perfil == 'funcionario':
-        cadastroLivro()
+    elif option == '3':
+        pass
+    elif option == '4':
+        pass
+    elif option == '5':
+        pass
+    else:
+        return
+
+
+def hierarquia(perfil):
+    on = True
+
+    while on:
+        if perfil == 'adm':
+        #tudo
+            pass
+        elif perfil == 'funcionario':
+            cadastroLivro()
         #atualizaLivro
         #verificaLivro
         #atualizaUsuario
-        pass
-    elif perfil == 'cliente':
-        #comprar, assinar, etc.
-        pass
-    else:
-        #mostrar informacoes de pendencia
-        pass
+            pass
+        elif perfil == 'cliente':
+            escolha = menuCliente()
+            systemCliente(escolha)
+
+            if escolha == '0':
+                on = False
+        else:
+            #mostrar informacoes de pendencia
+            pass
 
 
+# Acoes que envolvem o baco de dados (dataBase.txt)
 def totalDeUsuarios():
     base = open('dataBase.txt','r')
     total = len(base.readlines())
@@ -48,7 +87,7 @@ def totalDeUsuarios():
     return total
 
 
-def verificaLogin(id, senha):
+def verificaLogin(id, senha, flag=True):
     total = totalDeUsuarios()
     base = open('dataBase.txt', 'r')
 
@@ -60,7 +99,8 @@ def verificaLogin(id, senha):
             base.close()
             return usuario[Pessoa.perfil.value]
 
-    print('Usuario ou senha incorreto')
+    if not flag:
+        print('Usuario ou senha incorreto')
 
     base.close()
 
@@ -71,9 +111,11 @@ def cadastroUsuario():
     for x in range(len(base)):
         novaPessoa += [input('{}: '.format(base[x]))]
 
-    novaPessoa.append('\n')
-    if verificaLogin(novaPessoa):
+
+    if verificaLogin(novaPessoa[Pessoa.id.value], novaPessoa[Pessoa.senha.value]):
         return
+
+    novaPessoa.extend(('perfil pendente','\n'))
 
     pessoas = open('dataBase.txt', 'a')
     novaPessoaString = ','.join(novaPessoa)
@@ -86,8 +128,19 @@ def cadastroUsuario():
 def atualizaUsuario():
     pass
 
-def verificaLivro():
-    pass
+# Acoes que envolvem o banco de dados (livro.txt)
+def visualizarLivros():
+    livros = open('livros.txt','r')
+    flag = True
+
+    while flag:
+        book = livros.readline().strip(',\n')
+        if not book:
+            flag = False
+        else:
+            print(book)
+
+    livros.close()
 
 def numeroDeLivros():
     pass
@@ -97,7 +150,7 @@ def cadastroLivro():
     livros = open('livros.txt','r+')
     posicao = str(len(livros.readlines()) + 1)
 
-    base = ['Obra', 'Autor', 'Ano', 'Tipo']
+    base = ['Obra', 'Autor', 'Ano', 'Tipo', 'Preco']
     novoLivro = []
     for x in range(len(base)):
         novoLivro += [input('{}: '.format(base[x]))]
@@ -105,20 +158,20 @@ def cadastroLivro():
     novoLivro.insert(0,posicao)
     novoLivro.append('\n')
 
-    novoLivroString = ','.join(novoLivro)
+    novoLivroString = ', '.join(novoLivro)
     livros.write(novoLivroString)
     livros.close()
 
 def atualizaLivro():
     pass
 
-# main
+# Main
 escolha = menuLogin()
 
 if escolha == '1':
     id = input('Id: ')
     senha = input('Senha: ')
-    perfil = verificaLogin(id, senha)
+    perfil = verificaLogin(id, senha, False)
     hierarquia(perfil)
 elif escolha == '2':
     cadastroUsuario()
