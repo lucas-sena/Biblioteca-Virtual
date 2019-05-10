@@ -26,18 +26,37 @@ def menuLogin():
 
 
 def menuCliente():
-    print('\nO que deseja ?')
-
     print('1. Ver livros disponiveis')
     print('2. Realizar compra')
     print('3. Alugar um livro')
     print('4. Tornar-se assinante')
-    print('5. Perguntas/Reclamaçoes/Sugetoes')
     print('0. Sair')
 
     escolha = input('\n>>> ')
 
     return escolha
+
+def menuFuncionario():
+    print('1. Ver estoque')
+    print('2. Cadastrar item')
+    print('3. Remover item')
+    print('4. Atualizar item')
+    print('5. Buscar item')
+    print('6. Buscar usuario')
+    print('7. Atualizar usuario')
+    print('8. Verificar compras/transacoes realizadas')
+    print('0. Sair')
+
+    escolha = input('\n>>> ')
+    return escolha
+
+def systemFuncionario(option):
+    if option == '1':
+        visualizarLivros()
+    elif option == '2':
+        cadastroLivro()
+
+    return
 
 def systemCliente(option):
     if option == '1':
@@ -48,8 +67,6 @@ def systemCliente(option):
         pass
     elif option == '4':
         pass
-    elif option == '5':
-        pass
     else:
         return
 
@@ -57,12 +74,13 @@ def systemCliente(option):
 def hierarquia(perfil):
     on = True
 
+    print('O que deseja ?')
     while on:
         if perfil == 'adm':
-        #tudo
             pass
         elif perfil == 'funcionario':
             cadastroLivro()
+            escolha = menuFuncionario()
         #atualizaLivro
         #verificaLivro
         #atualizaUsuario
@@ -71,11 +89,12 @@ def hierarquia(perfil):
             escolha = menuCliente()
             systemCliente(escolha)
 
-            if escolha == '0':
-                on = False
         else:
             #mostrar informacoes de pendencia
             pass
+
+        if escolha == '0':
+            on = False
 
 
 # Acoes que envolvem o baco de dados (dataBase.txt)
