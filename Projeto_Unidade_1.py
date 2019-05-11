@@ -55,8 +55,24 @@ def systemFuncionario(option):
         visualizarLivros()
     elif option == '2':
         cadastroLivro()
-
-    return
+    elif option =='3':
+        #removerLivro()
+        pass
+    elif option == '4':
+        atualizaLivro()
+    elif option == '5':
+        #buscarLivro()
+        pass
+    elif option == '6':
+        #buscarUsuario()
+        pass
+    elif option == '7':
+        atualizaUsuario()
+    elif option == '8':
+        #verificaCompra()
+        pass
+    else:
+        return
 
 def systemCliente(option):
     if option == '1':
@@ -78,13 +94,12 @@ def hierarquia(perfil):
     while on:
         if perfil == 'adm':
             pass
+
         elif perfil == 'funcionario':
-            cadastroLivro()
             escolha = menuFuncionario()
-        #atualizaLivro
-        #verificaLivro
-        #atualizaUsuario
-            pass
+            systemFuncionario(escolha)
+            if escolha == '0':
+                on = False
         elif perfil == 'cliente':
             escolha = menuCliente()
             systemCliente(escolha)
@@ -92,9 +107,6 @@ def hierarquia(perfil):
         else:
             #mostrar informacoes de pendencia
             pass
-
-        if escolha == '0':
-            on = False
 
 
 # Acoes que envolvem o baco de dados (dataBase.txt)
@@ -152,13 +164,14 @@ def visualizarLivros():
     livros = open('livros.txt','r')
     flag = True
 
+    print('\nESTOQUE:')
     while flag:
         book = livros.readline().strip(',\n')
         if not book:
             flag = False
         else:
             print(book)
-
+    print('\n')
     livros.close()
 
 def numeroDeLivros():
@@ -180,6 +193,13 @@ def cadastroLivro():
     novoLivroString = ', '.join(novoLivro)
     livros.write(novoLivroString)
     livros.close()
+
+def buscaLivro():
+
+    pass
+
+def removeLivro():
+    pass
 
 def atualizaLivro():
     pass
