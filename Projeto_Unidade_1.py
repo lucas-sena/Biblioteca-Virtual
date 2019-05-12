@@ -32,7 +32,7 @@ def menuCliente():
     print('4. Tornar-se assinante')
     print('0. Sair')
 
-    escolha = input('\n>>> ')
+    escolha = input('>>> ')
 
     return escolha
 
@@ -47,7 +47,7 @@ def menuFuncionario():
     print('8. Verificar compras/transacoes realizadas')
     print('0. Sair')
 
-    escolha = input('\n>>> ')
+    escolha = input('>>> ')
     return escolha
 
 def systemFuncionario(option):
@@ -61,7 +61,7 @@ def systemFuncionario(option):
     elif option == '4':
         atualizaLivro()
     elif option == '5':
-        #buscarLivro()
+        buscaLivro()
         pass
     elif option == '6':
         #buscarUsuario()
@@ -190,13 +190,22 @@ def cadastroLivro():
     novoLivro.insert(0,posicao)
     novoLivro.append('\n')
 
-    novoLivroString = ', '.join(novoLivro)
+    novoLivroString = ','.join(novoLivro)
     livros.write(novoLivroString)
     livros.close()
 
 def buscaLivro():
+    book_search = input('\nQual livro esta procurando ?\n>>> ')
+    livros = open('livros.txt','r')
+    livro_list = []
 
-    pass
+    while livro_list != ['']:
+        livro_list = livros.readline().strip(',\n').split(',')
+
+        if livro_list[Livro.obra.value] == book_search:
+            livros.close()
+            return livro_list
+    livros.close()
 
 def removeLivro():
     pass
