@@ -41,14 +41,54 @@ def menuFuncionario():
     print('2. Cadastrar item')
     print('3. Remover item')
     print('4. Atualizar item')
-    print('5. Buscar item')
-    print('6. Buscar usuario')
-    print('7. Atualizar usuario')
-    print('8. Verificar compras/transacoes realizadas')
+    print('5. Buscar usuario')
+    print('6. Atualizar usuario')
+    print('7. Verificar compras/transacoes realizadas')
     print('0. Sair')
 
     escolha = input('>>> ')
     return escolha
+
+def menuGerente():
+    print('1. Ver estoque')
+    print('2. Cadastrar item')
+    print('3. Remover item')
+    print('4. Atualizar item')
+    print('5. Buscar usuario')
+    print('6. Atualizar usuario')
+    print('7. Alterar perfil de usuario')
+    print('8. Quantidade de usuarios cadastrados')
+    print('9. Verificar compras/transacoes realizadas')
+    print('0. Sair')
+
+    escolha = input('>>> ')
+    return escolha
+
+def systemGerente(option):
+    if option == '1':
+        visualizarLivros()
+    elif option == '2':
+        cadastroLivro()
+    elif option =='3':
+        removeLivro()
+    elif option == '4':
+        atualizaLivro()
+    elif option == '5':
+        #buscarUsuario()
+        pass
+    elif option == '6':
+        atualizaUsuario()
+    elif option == '7':
+        alteraPerfil()
+        pass
+    elif option == '8':
+        print(f'Numero de usuarios cadastrados: {totalDeUsuarios()}\n')
+    elif option == '9':
+        #verificaCompra()
+        pass
+    else:
+        return
+
 
 def systemFuncionario(option):
     if option == '1':
@@ -60,14 +100,11 @@ def systemFuncionario(option):
     elif option == '4':
         atualizaLivro()
     elif option == '5':
-        buscaLivro()
-
-    elif option == '6':
         #buscarUsuario()
         pass
-    elif option == '7':
+    elif option == '6':
         atualizaUsuario()
-    elif option == '8':
+    elif option == '7':
         #verificaCompra()
         pass
     else:
@@ -92,30 +129,27 @@ def hierarquia(perfil):
     print('O que deseja ?')
     while on:
         if perfil == 'adm':
-            pass
+            choice = menuGerente()
+            systemGerente(choice)
 
         elif perfil == 'funcionario':
-            escolha = menuFuncionario()
-            systemFuncionario(escolha)
-            if escolha == '0':
-                on = False
-        elif perfil == 'cliente':
-            escolha = menuCliente()
-            systemCliente(escolha)
+            choice = menuFuncionario()
+            systemFuncionario(choice)
 
-        else:
-            #mostrar informacoes de pendencia
-            pass
+        elif perfil == 'cliente':
+            choice = menuCliente()
+            systemCliente(choice)
+
+        if choice == '0':
+            on = False
 
 
 # Acoes que envolvem o baco de dados (dataBase.txt)
 def totalDeUsuarios():
-    base = open('dataBase.txt','r')
-    total = len(base.readlines())
-    base.close()
+    with open('dataBase.txt','r') as base:
+        total = len(base.readlines())
 
     return total
-
 
 def verificaLogin(id, senha, flag=True):
     total = totalDeUsuarios()
@@ -134,13 +168,11 @@ def verificaLogin(id, senha, flag=True):
 
     base.close()
 
-
 def cadastroUsuario():
     base = ['ID','Senha','Nome','Data de Nascimento','CPF']
     novaPessoa = []
     for x in range(len(base)):
         novaPessoa += [input('{}: '.format(base[x]))]
-
 
     if verificaLogin(novaPessoa[Pessoa.id.value], novaPessoa[Pessoa.senha.value]):
         return
@@ -157,6 +189,28 @@ def cadastroUsuario():
 
 def atualizaUsuario():
     pass
+
+def alteraPerfil():
+    len = totalDeUsuarios()
+    id = input('Deseja alterar o perfil de qual usuario (ID)?\n>>> ')
+    new_perfil = input('Qual o novo perfil ?\n>>> ')
+
+    with open('database.txt', 'r') as base:
+        pessoas = base.readlines()
+
+    with open('database.txt', 'r') as base:
+        for x in range(len):
+            usuario = base.readline().split(',')
+
+            if usuario[Pessoa.id.value] == id:
+                usuario[Pessoa.perfil.value] = new_perfil
+                break
+
+    pessoas.pop(x)
+    pessoas.insert(x,','.join(usuario))
+    with open('database.txt', 'w') as base:
+        base.writelines(pessoas)
+    print('Perfil alterado com sucesso\n')
 
 # Acoes que envolvem o banco de dados (livro.txt)
 def visualizarLivros():
