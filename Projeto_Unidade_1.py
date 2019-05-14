@@ -56,13 +56,12 @@ def systemFuncionario(option):
     elif option == '2':
         cadastroLivro()
     elif option =='3':
-        #removerLivro()
-        pass
+        removeLivro()
     elif option == '4':
         atualizaLivro()
     elif option == '5':
         buscaLivro()
-        pass
+
     elif option == '6':
         #buscarUsuario()
         pass
@@ -198,17 +197,39 @@ def buscaLivro():
     book_search = input('\nQual livro esta procurando ?\n>>> ')
     livros = open('livros.txt','r')
     livro_list = []
+    book_index = -1
+    book_not_found = 0
 
     while livro_list != ['']:
-        livro_list = livros.readline().strip(',\n').split(',')
 
-        if livro_list[Livro.obra.value] == book_search:
-            livros.close()
-            return livro_list
+        livro_list = livros.readline().strip(',\n').split(',')
+        book_index += 1
+
+        try:
+            if livro_list[Livro.obra.value] == book_search:
+                livro_list = []
+                break
+        except IndexError:
+            livro_list = ['']
+
     livros.close()
+    return book_index if livro_list == [] else book_not_found
 
 def removeLivro():
-    pass
+    index = buscaLivro()
+
+    with open('livros.txt', 'r') as livro:
+        book = livro.readlines()
+
+    with open('livros.txt','w') as livro:
+        if index:
+            book.pop(index)
+            livro.writelines(book)
+            print('Removido com sucesso\n')
+        else:
+            livro.writelines(book)
+            print('Livro nao encontrado\n')
+
 
 def atualizaLivro():
     pass
