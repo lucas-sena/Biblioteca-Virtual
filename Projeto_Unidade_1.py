@@ -1,5 +1,5 @@
 from enum import Enum
-# from datetime import datetime
+from datetime import datetime
 
 class Pessoa(Enum):
     id = 0
@@ -25,43 +25,37 @@ def menuLogin():
     return escolha
 
 
-def menuCliente():
-    print('1. Ver livros disponiveis')
-    print('2. Realizar compra')
-    print('3. Alugar um livro')
-    print('4. Tornar-se assinante')
+def menuCliente(id):
+    text = ['1. Ver livros disponiveis', '2. Realizar compra', '3. Alugar um livro', '4. Tornar-se assinante']
+    for mensagem in text:
+        print(mensagem)
     print('0. Sair')
 
     escolha = input('>>> ')
+    gravarOperacao(escolha, text, id)
 
     return escolha
 
-def menuFuncionario():
-    print('1. Ver estoque')
-    print('2. Cadastrar item')
-    print('3. Remover item')
-    print('4. Atualizar item')
-    print('5. Buscar usuario')
-    print('6. Atualizar usuario')
-    print('7. Verificar compras/transacoes realizadas')
+def menuFuncionario(id):
+    text = ['1. Ver estoque', '2. Cadastrar item', '3. Remover item', '4. Atualizar item', '5. Buscar usuario', '6. Atualizar usuario','7. Verificar compras/transacoes realizadas']
+    for mensagem in text:
+        print(mensagem)
     print('0. Sair')
 
     escolha = input('>>> ')
+    gravarOperacao(escolha, text, id)
+
     return escolha
 
-def menuGerente():
-    print('1. Ver estoque')
-    print('2. Cadastrar item')
-    print('3. Remover item')
-    print('4. Atualizar item')
-    print('5. Buscar usuario')
-    print('6. Atualizar usuario')
-    print('7. Alterar perfil de usuario')
-    print('8. Quantidade de usuarios cadastrados')
-    print('9. Verificar compras/transacoes realizadas')
+def menuGerente(id):
+    text = ['1. Ver estoque', '2. Cadastrar item', '3. Remover item', '4. Atualizar item', '5. Buscar usuario', '6. Atualizar usuario', '7. Alterar perfil de usuario', '8. Quantidade de usuarios cadastrados', '9. Verificar compras/transacoes realizadas']
+    for mensagem in text:
+        print(text)
     print('0. Sair')
 
     escolha = input('>>> ')
+    gravarOperacao(escolha, text, id)
+
     return escolha
 
 def systemGerente(option):
@@ -88,7 +82,6 @@ def systemGerente(option):
         pass
     else:
         return
-
 
 def systemFuncionario(option):
     if option == '1':
@@ -123,25 +116,33 @@ def systemCliente(option):
         return
 
 
-def hierarquia(perfil):
+def hierarquia(id, perfil):
     on = True
 
     print('O que deseja ?')
     while on:
         if perfil == 'adm':
-            choice = menuGerente()
+            choice = menuGerente(id)
             systemGerente(choice)
 
         elif perfil == 'funcionario':
-            choice = menuFuncionario()
+            choice = menuFuncionario(id)
             systemFuncionario(choice)
 
         elif perfil == 'cliente':
-            choice = menuCliente()
+            choice = menuCliente(id)
             systemCliente(choice)
 
         if choice == '0':
             on = False
+
+
+def gravarOperacao(index, mensagem, usuario):
+    data_e_hora_atuais = datetime.now()
+    data_e_hora_em_texto = data_e_hora_atuais.strftime('%d/%m/%Y %H:%M')
+
+    with open('log_Biblioteca_Virtual.txt', 'a') as operacao:
+        print('[{}] Usuario: ({}) --> Selecionou: ({})' .format(data_e_hora_em_texto, usuario, mensagem[index]),operacao)
 
 
 # Acoes que envolvem o baco de dados (dataBase.txt)
@@ -295,7 +296,7 @@ if escolha == '1':
     id = input('Id: ')
     senha = input('Senha: ')
     perfil = verificaLogin(id, senha, False)
-    hierarquia(perfil)
+    hierarquia(id, perfil)
 elif escolha == '2':
     cadastroUsuario()
 else:
