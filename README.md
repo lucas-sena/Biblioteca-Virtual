@@ -1,5 +1,5 @@
 # Biblioteca-Virtual
-Primeiro projeto da disciplina LPAA.
+Primeiro projeto da disciplina LPAA (Linguagem de Programação Aplicada a Automação)
 
 ## Contexto Geral
 * O projeto de ser uma modelagem de um negócio/estabelecimento/empresa do mundo real ou
